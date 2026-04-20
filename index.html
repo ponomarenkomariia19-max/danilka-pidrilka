@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Danilka Pidrilkaт</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #ffe6f0;
+}
+
+/* центр "листа" */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  text-align: center;
+}
+
+/* кнопки-иконки */
+.btn {
+  padding: 15px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 20px;
+  background: #ff66b2;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* скрытые блоки */
+.hidden {
+  display: none;
+}
+
+/* гифка */
+img {
+  margin-top: 20px;
+  max-width: 300px;
+  border-radius: 15px;
+}
+
+/* кнопки ответа */
+.answer {
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  background: #ff99cc;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* финальный текст */
+.final {
+  margin-top: 40px;
+  font-size: 24px;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="container">
+
+  <!-- ЭТАП 1 -->
+  <button id="startBtn" class="btn">Нажми на мене</button>
+
+  <!-- ЭТАП 2 -->
+  <div id="stage2" class="hidden">
+    <button id="trapBtn" class="btn">А ти упрямий!!!!</button>
+  </div>
+
+  <!-- ЭТАП 3 -->
+  <div id="stage3" class="hidden">
+    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWZiNHpxZ2Z5a2dyaWRub3M2enJiY2llb2JoNWw0dGJ2YTBqc2M2biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ev477g37MJORyOWfdG/giphy.gif">
+
+    <h2>Ти мене образив. Тобі соромно?</h2>
+
+    <button class="answer" onclick="yesFinal()">Да</button>
+    <button class="answer" id="noBtn">Нет</button>
+  </div>
+
+  <!-- ФИНАЛ -->
+  <div id="final" class="hidden">
+    <div class="final">
+      Молодець! Чекаю квіточки🌸
+    </div>
+
+    <img src="https://media1.giphy.com/media/wmbWfWe6APqtPW81Wx/giphy.gif">
+  </div>
+
+</div>
+
+<script>
+
+let clickCount = 0;
+const startBtn = document.getElementById("startBtn");
+const stage2 = document.getElementById("stage2");
+const trapBtn = document.getElementById("trapBtn");
+const stage3 = document.getElementById("stage3");
+const final = document.getElementById("final");
+const noBtn = document.getElementById("noBtn");
+
+let hoverCount = 0;
+const maxHovers = 6;
+
+/* =========================
+   КНОПКА 1 (убегает)
+========================= */
+startBtn.addEventListener("mouseover", () => {
+  if (hoverCount < maxHovers) {
+    moveButton(startBtn);
+  }else
+{//на 6 раз перестаёт убегать
+    startBtn.style.position = "static";}
+});
+
+startBtn.addEventListener("click", () => {
+  clickCount++;
+  if (clickCount >= 3) {
+    startBtn.style.display = "none";
+    stage2.classList.remove("hidden");
+  }
+});
+
+/* =========================
+   КНОПКА 2 (упрямая)
+========================= */
+trapBtn.addEventListener("click", () => {
+  stage2.classList.add("hidden");
+  stage3.classList.remove("hidden");
+});
+
+/* =========================
+   YES финал
+========================= */
+function yesFinal() {
+  stage3.classList.add("hidden");
+  final.classList.remove("hidden");
+}
+
+/* =========================
+   NO кнопка убегает
+========================= */
+noBtn.addEventListener("mouseover", () => {
+  if (noHoverCount < 5) {
+    moveButton(noBtn);
+    noHoverCount++;
+  } else {
+    // после 5 наведений превращается в "Да"
+    noBtn.innerText = "Да";
+    noBtn.onclick = yesFinal;
+    noBtn.style.position = "static";
+  }
+});
+
+/* =========================
+   движение кнопки
+========================= */
+function moveButton(btn) {
+  const x = Math.random() * (window.innerWidth - 150);
+  const y = Math.random() * (window.innerHeight - 150);
+
+  btn.style.position = "absolute";
+  btn.style.left = x + "px";
+  btn.style.top = y + "px";
+}
+
+</script>
+
+</body>
+</html>
